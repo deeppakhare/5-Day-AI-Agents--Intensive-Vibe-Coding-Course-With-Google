@@ -1,0 +1,8 @@
+{
+  "name": "Deep Pakhare - 3D Portfolio",
+  "description": "A stunning, futuristic 3D portfolio featuring glassmorphism, Three.js scenes, and premium animations.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
