@@ -15,7 +15,7 @@ export default function MusicPlayer() {
       if (isPlaying) {
         audioRef.current.pause();
       } else {
-        // audioRef.current.play(); // commented out since no actual source
+        audioRef.current.play(); // commented out since no actual source
       }
       setIsPlaying(!isPlaying);
     }
@@ -35,7 +35,7 @@ export default function MusicPlayer() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 1 }}
     >
-      <audio ref={audioRef} loop src="#" />
+      <audio ref={audioRef}loop src="/bgAudio/background_music.mp3" />
       
       <AnimatePresence>
         {showControls && (
