@@ -38,12 +38,12 @@ export default function GitHubSection() {
         let reposData: Repository[] = [];
         
         try {
-          const userRes = await fetch('https://api.github.com/users/deeppakhare19');
+          const userRes = await fetch('https://api.github.com/users/deeppakhare');
           if (userRes.ok) {
             userData = await userRes.json();
           }
           
-          const reposRes = await fetch('https://api.github.com/users/deeppakhare19/repos?sort=updated&per_page=100');
+          const reposRes = await fetch('https://api.github.com/users/deeppakhare/repos?sort=updated&per_page=100');
           if (reposRes.ok) {
             reposData = await reposRes.json();
           }
@@ -54,17 +54,17 @@ export default function GitHubSection() {
         if (!userData || !reposData.length) {
           // Fallback data if API rate limit exceeded or network error
           userData = {
-            login: 'deeppakhare19',
-            avatar_url: 'https://avatars.githubusercontent.com/u/deep', 
+            login: 'deeppakhare',
+            avatar_url: 'https://avatars.githubusercontent.com/u/deeppakhare', 
             public_repos: 15,
             followers: 12,
             following: 8,
-            html_url: 'https://github.com/deeppakhare19'
+            html_url: 'https://github.com/deeppakhare'
           };
           reposData = [
-            { id: 1, name: 'Civic-Issue-Reporting', html_url: 'https://github.com/deeppakhare19', description: 'MERN stack application to report and track civic issues.', stargazers_count: 4, forks_count: 1, language: 'TypeScript', updated_at: new Date().toISOString() },
-            { id: 2, name: 'Shroomify', html_url: 'https://github.com/deeppakhare19', description: 'An e-commerce platform dedicated to selling mushrooms.', stargazers_count: 3, forks_count: 2, language: 'JavaScript', updated_at: new Date().toISOString() },
-            { id: 3, name: 'AI-Prompt-to-Prototype', html_url: 'https://github.com/deeppakhare19', description: 'A web prototype focusing on Generative AI.', stargazers_count: 2, forks_count: 0, language: 'TypeScript', updated_at: new Date().toISOString() }
+            { id: 1, name: 'Civic-Issue-Reporting', html_url: 'https://github.com/deeppakhare', description: 'MERN stack application to report and track civic issues.', stargazers_count: 4, forks_count: 1, language: 'TypeScript', updated_at: new Date().toISOString() },
+            { id: 2, name: 'Shroomify', html_url: 'https://github.com/deeppakhare', description: 'An e-commerce platform dedicated to selling mushrooms.', stargazers_count: 3, forks_count: 2, language: 'JavaScript', updated_at: new Date().toISOString() },
+            { id: 3, name: 'Deep-s-Portfolio', html_url: 'https://github.com/deeppakhare', description: 'An interactive AI-powered portfolio built with modern web technologies.', stargazers_count: 2, forks_count: 0, language: 'TypeScript', updated_at: new Date().toISOString() }
           ];
         }
 

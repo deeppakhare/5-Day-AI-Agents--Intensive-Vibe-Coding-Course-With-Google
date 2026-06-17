@@ -38,7 +38,7 @@ export default function Contact() {
           </motion.a>
 
           <motion.a 
-            href="https://wa.me/yourwhatsappnumber"
+            href="https://wa.me/8530316804"
             aria-label="Contact Deep Pakhare on WhatsApp"
             target="_blank"
             rel="noopener noreferrer"
@@ -56,8 +56,8 @@ export default function Contact() {
             © {new Date().getFullYear()} Deep Pakhare. All rights reserved.
           </p>
           <div className="flex gap-4 text-white/50">
-            <a href="https://github.com/deeppakhare19" aria-label="Deep Pakhare GitHub Profile" itemProp="sameAs" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors"><Github size={20} aria-hidden="true" /></a>
-            <a href="https://linkedin.com/in/deeppakhare19" aria-label="Deep Pakhare LinkedIn Profile" itemProp="sameAs" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors"><Linkedin size={20} aria-hidden="true" /></a>
+            <a href="https://github.com/deeppakhare" aria-label="Deep Pakhare GitHub Profile" itemProp="sameAs" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors"><Github size={20} aria-hidden="true" /></a>
+            <a href="https://linkedin.com/in/deeppakhare6669" aria-label="Deep Pakhare LinkedIn Profile" itemProp="sameAs" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors"><Linkedin size={20} aria-hidden="true" /></a>
           </div>
         </footer>
       </div>

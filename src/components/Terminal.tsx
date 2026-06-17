@@ -29,16 +29,16 @@ export default function TerminalSection() {
         response = 'Available commands: about, skills, projects, contact, clear';
         break;
       case 'about':
-        response = 'Deep Pakhare - MERN Developer, AI Enthusiast, B.Tech CSE student from Maharashtra, India.';
+        response = 'Deep Pakhare - MERN Developer, AI Enthusiast, B.Tech CSE student from Maharashtra, India.\nBuilding solutions that matter.';
         break;
       case 'skills':
-        response = 'React, Next.js, Node.js, Express, MongoDB, Three.js, Tailwind, TypeScript.';
+        response = '> Frontend: React, Javascript, Tailwind, Three.js\n> Backend: Node.js, MongoDB\n> Tools: Git, Figma, AI Studio';
         break;
       case 'projects':
-        response = '1. Civic Issue Reporting App\n2. Shroomify\n3. AI Prompt to Prototype';
+        response = '1. Civic Issue Reporting App\n2. Shroomify\n3. Deep-s-Portfolio';
         break;
       case 'contact':
-        response = 'Email: deeppakhare19@gmail.com\nGitHub: github.com/deeppakhare19';
+        response = 'Email: deeppakhare19@gmail.com\nGitHub: github.com/deeppakhare\nLinkdin: www.linkedin.com/in/deeppakhare6669';
         break;
       case 'clear':
         setOutput([]);
@@ -80,7 +80,7 @@ export default function TerminalSection() {
               <div className="w-3 h-3 rounded-full bg-yellow-500" />
               <div className="w-3 h-3 rounded-full bg-green-500" />
             </div>
-            <div className="flex-1 text-center text-xs text-white/50 font-mono">guest@deep-portfolio:~</div>
+            <div className="flex-1 text-center text-xs text-white/50 font-mono">guest@deep-terminal:~</div>
           </div>
 
           {/* Terminal Body */}
@@ -99,7 +99,7 @@ export default function TerminalSection() {
               }}
               className="flex items-center text-[#e0c3fc] mt-2"
             >
-              <span className="mr-2">guest@deep-portfolio:~$</span>
+              <span className="mr-2">guest@deep-terminal:~$</span>
               <input 
                 type="text" 
                 value={input}

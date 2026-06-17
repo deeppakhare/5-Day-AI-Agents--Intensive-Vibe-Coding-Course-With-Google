@@ -37,13 +37,13 @@ export default function TerminalModal({ isOpen, onClose }: TerminalModalProps) {
         response = 'Deep Pakhare - MERN Developer, AI Enthusiast, B.Tech CSE student from Maharashtra, India.\nBuilding solutions that matter.';
         break;
       case 'skills':
-        response = '> Frontend: React, Next.js, Tailwind, Three.js\n> Backend: Node.js, Express, MongoDB\n> Tools: Git, Figma, AI Studio';
+        response = '> Frontend: React, Javascript, Tailwind, Three.js\n> Backend: Node.js, MongoDB\n> Tools: Git, Figma, AI Studio';
         break;
       case 'projects':
-        response = '1. Civic Issue Reporting App\n2. Shroomify (E-commerce)\n3. AI Prompt to Prototype';
+        response = '1. Civic Issue Reporting App\n2. Shroomify\n3. Deep-s-Portfolio';
         break;
       case 'contact':
-        response = 'Email: deeppakhare19@gmail.com\nGitHub: github.com/deeppakhare19\nLinkedIn: Connect with me!';
+        response = 'Email: deeppakhare19@gmail.com\nGitHub: github.com/deeppakhare\nLinkdin: www.linkedin.com/in/deeppakhare6669';
         break;
       case 'exit':
         onClose();
