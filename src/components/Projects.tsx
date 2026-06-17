@@ -9,23 +9,23 @@ export default function Projects() {
     {
       title: "Civic Issue Reporting app",
       desc: "A MERN stack application to report and track civic issues effectively, featuring a modern dashboard and real-time updates.",
-      tech: ["MongoDB", "Express", "React", "Node.js"],
-      github: "https://github.com/deeppakhare19",
+      tech: ["React", "Node.js", "MongoDB", "HTML", "CSS", "Figma"],
+      github: "https://github.com/deeppakhare/CleanStreet_Group1",
       live: "#"
     },
     {
       title: "Shroomify",
       desc: "An e-commerce platform dedicated to selling mushrooms and their byproducts, featuring payment integration and inventory management.",
-      tech: ["React", "Tailwind CSS", "Firebase"],
-      github: "https://github.com/deeppakhare19",
-      live: "#"
+      tech: ["React", "TypeScript", "Tailwind CSS","HTML", "Google AI Studio"],
+      github: "https://github.com/deeppakhare/Shroomify",
+      live: "https://shroomify-rho.vercel.app/"
     },
     {
-      title: "AI Prompt to Prototype",
-      desc: "A web prototype developed during the Startup School program focusing on solving real-world challenges using Generative AI.",
-      tech: ["Gemini AI", "Next.js", "Tailwind CSS"],
-      github: "https://github.com/deeppakhare19",
-      live: "#"
+      title: "Deep-s-Portfolio",
+      desc: "An interactive AI-powered portfolio built with modern web technologies. Runs locally with a React frontend and Express backend, featuring Gemini API integration for enhanced functionality.",
+      tech: ["React","TypeScript","Three.js", "Tailwind CSS", "Node.js", "Vercel", "Google AI Studio"],
+      github: "https://github.com/deeppakhare/Deep-s-Portfolio",
+      live: "https://deep-s-portfolio-iota.vercel.app/"
     }
   ];
 
@@ -45,7 +45,7 @@ export default function Projects() {
             </h2>
             <p className="text-white/60 font-mono text-sm uppercase tracking-widest">// selected works</p>
           </div>
-          <a href="https://github.com/deeppakhare19" target="_blank" rel="noreferrer" className="hidden md:flex items-center gap-2 text-[#9d4edd] hover:text-white transition-colors font-mono hover:scale-105 transition-transform">
+          <a href="https://github.com/deeppakhare" target="_blank" rel="noreferrer" className="hidden md:flex items-center gap-2 text-[#9d4edd] hover:text-white transition-colors font-mono hover:scale-105 transition-transform">
             View all on GitHub <ExternalLink size={16} />
           </a>
         </motion.div>
@@ -95,7 +95,7 @@ export default function Projects() {
         </div>
         
         <div className="mt-8 text-center md:hidden">
-          <a href="https://github.com/deeppakhare19" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-[#9d4edd]">
+          <a href="https://github.com/deeppakhare" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-[#9d4edd]">
             View all on GitHub <ExternalLink size={16} />
           </a>
         </div>

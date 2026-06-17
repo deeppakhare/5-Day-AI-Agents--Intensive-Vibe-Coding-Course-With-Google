@@ -106,10 +106,10 @@ export default function Hero() {
             animate={{ opacity: 1 }}
             transition={{ delay: 1, duration: 0.8 }}
           >
-            <a href="https://github.com/deeppakhare19" aria-label="GitHub Profile" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full glass-panel flex items-center justify-center text-white/70 hover:text-[#e0c3fc] hover:border-[#9d4edd]/50 transition-colors hover:shadow-[0_0_15px_rgba(157,78,221,0.3)]">
+            <a href="https://github.com/deeppakhare" aria-label="GitHub Profile" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full glass-panel flex items-center justify-center text-white/70 hover:text-[#e0c3fc] hover:border-[#9d4edd]/50 transition-colors hover:shadow-[0_0_15px_rgba(157,78,221,0.3)]">
               <Github size={20} aria-hidden="true" />
             </a>
-            <a href="https://linkedin.com/in/deeppakhare19" aria-label="LinkedIn Profile" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full glass-panel flex items-center justify-center text-white/70 hover:text-[#e0c3fc] hover:border-[#9d4edd]/50 transition-colors hover:shadow-[0_0_15px_rgba(157,78,221,0.3)]">
+            <a href="https://www.linkedin.com/in/deeppakhare6669/" aria-label="LinkedIn Profile" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full glass-panel flex items-center justify-center text-white/70 hover:text-[#e0c3fc] hover:border-[#9d4edd]/50 transition-colors hover:shadow-[0_0_15px_rgba(157,78,221,0.3)]">
               <Linkedin size={20} aria-hidden="true" />
             </a>
           </motion.div>
