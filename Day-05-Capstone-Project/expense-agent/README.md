@@ -1,137 +1,478 @@
-# Ambient Expense Agent (ADK 2.0)
+# 🚀 Ambient Expense Agent
 
-[![Google Cloud Agent Runtime](https://img.shields.io/badge/Google%20Cloud-Agent%20Runtime-blue.svg)](https://cloud.google.com/vertex-ai)
-[![ADK 2.0](https://img.shields.io/badge/ADK-2.0-green.svg)](https://adk.dev)
-[![Python 3.11](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](https://www.python.org/)
+### Intelligent Expense Approval Workflow with Human-in-the-Loop Using Google ADK 2.0
 
-An ambient enterprise agent built with the Google **Agent Development Kit (ADK 2.0)** and deployed on **Gemini Enterprise Agent Runtime**. The agent automates employee expense reporting by instantly approving standard claims under $100 and routing larger claims ($100+) to a human reviewer using a stateful human-in-the-loop pause.
-
-Developed as part of the **Google 5-Day Intensive Vibe Coding Course**.
+Built as part of **Kaggle's 5-Day AI Agents: Intensive Vibe Coding Course with Google**, this project demonstrates how to build production-style AI workflows using **Google Agent Development Kit (ADK) 2.0**, incorporating **Human-in-the-Loop (HITL)** decision-making, workflow orchestration, and persistent session management.
 
 ---
 
-## 📖 Table of Contents
-1. [Workflow & Routing](#-workflow--routing)
-2. [Architecture](#-architecture)
-3. [Technology Stack](#-technology-stack)
-4. [Project Structure](#-project-structure)
-5. [Upskilling & References](#-upskilling--references)
-6. [Getting Started](#-getting-started)
-7. [Deployment to Agent Runtime](#-deployment-to-agent-runtime)
+## 🌟 Overview
+
+Organizations process thousands of expense claims every month. Many expenses can be approved automatically based on predefined business rules, while larger or unusual expenses require manual review.
+
+The **Ambient Expense Agent** automates this process by intelligently routing expense requests through a graph-based workflow:
+
+* Small expenses are approved automatically.
+* Large expenses are escalated for human review.
+* Workflows pause and resume seamlessly using ADK's Human-in-the-Loop capabilities.
+* Session state is preserved throughout the approval lifecycle.
+
+This project showcases how modern AI agents can orchestrate real-world business processes while maintaining human oversight when necessary.
 
 ---
 
-## 🔄 Workflow & Routing
+## 🎯 Key Features
 
-The agent uses a deterministic graph workflow to classify, route, and resolve expense reports. The flowchart below visualizes the execution logic:
+* ✅ Built with Google ADK 2.0 Workflow API
+* ✅ Graph-Based Agent Architecture
+* ✅ Human-in-the-Loop (HITL) Approval Flow
+* ✅ Stateful Workflow Execution
+* ✅ Session Persistence & Rehydration
+* ✅ Dynamic Expense Classification
+* ✅ Automatic Approval Rules
+* ✅ Manual Approval & Rejection Process
+* ✅ Workflow Interruption using RequestInput
+* ✅ ADK Playground Integration
+* ✅ Production-Oriented Agent Design
+
+---
+
+# 🏗️ System Architecture
 
 ```mermaid
 graph TD
-    START[START] --> CLASSIFY[classify_expense]
-    CLASSIFY -->|amount < 100| APPROVE[auto_approve]
-    CLASSIFY -->|amount >= 100| REVIEW[review_agent]
-    APPROVE --> END[Workflow Output]
-    REVIEW -->|human input: yes| END_APPROVE[Approved]
-    REVIEW -->|human input: no| END_REJECT[Rejected]
-    
-    style START fill:#1a73e8,stroke:#fff,stroke-width:2px,color:#fff
-    style APPROVE fill:#34a853,stroke:#fff,stroke-width:1px,color:#fff
-    style REVIEW fill:#f9ab00,stroke:#fff,stroke-width:1px,color:#fff
-    style CLASSIFY fill:#8ab4f8,stroke:#fff,stroke-width:1px,color:#000
-    style END fill:#202124,stroke:#fff,stroke-width:2px,color:#fff
-    style END_APPROVE fill:#34a853,stroke:#fff,stroke-width:1px,color:#fff
-    style END_REJECT fill:#ea4335,stroke:#fff,stroke-width:1px,color:#fff
+
+START --> CLASSIFY
+
+CLASSIFY -->|Amount < $100| AUTO_APPROVE
+CLASSIFY -->|Amount >= $100| REVIEW_AGENT
+
+AUTO_APPROVE --> END
+
+REVIEW_AGENT --> HUMAN_REVIEW
+
+HUMAN_REVIEW -->|Approve| APPROVED
+HUMAN_REVIEW -->|Reject| REJECTED
+
+APPROVED --> END
+REJECTED --> END
 ```
 
-### Routing Rules:
-1. **Auto-Approval (`auto_approve`)**: Any standard expense claim where `amount < 100.0` is instantly approved without human intervention.
-2. **Review Pause (`review_agent`)**: Any expense claim where `amount >= 100.0` pauses execution using `RequestInput` and awaits reviewer feedback.
-3. **Turn Resumption**: Once manual input is received (via a `FunctionResponse` matching the interrupt ID `manual_approval`), the workflow rehydrates, fast-forwards earlier completed nodes, and resumes execution to produce the final `ExpenseResult`.
-
 ---
 
-## 🏛️ Architecture
+# 🔄 Workflow Execution
 
-This agent is built as a stateful graph workflow utilizing the **ADK 2.0 Workflows API**. 
+The workflow follows a simple but powerful approval strategy:
 
-* **State Persistence & Rehydration**: On a human-in-the-loop pause, the workflow records its current state (the parsed `ExpenseInput`) inside the session database. On resumption, the `_replay_interceptor` rehydrates the session, automatically replaying completed nodes without executing their underlying python functions again, ensuring fast response times and deterministic execution.
-* **Loose Payload Coupling**: The entrypoint accepts generic JSON structures (supporting nested `"data"` keys found in standard webhooks) and maps them dynamically to the `ExpenseInput` schema.
-* **Default/Optional Fields**: Fields such as `merchant` and `description` are marked optional, defaulting to safe stand-in values (e.g. `"Unknown Merchant"`) to prevent runtime schema validation errors.
+### Step 1: Expense Submission
 
----
+A user submits an expense report:
 
-## 🛠️ Technology Stack
-
-* **Orchestration**: [Google ADK 2.0](https://adk.dev/) Workflows API (Graph Routing & HITL).
-* **Package Manager**: [uv](https://docs.astral.sh/uv/) (Astral's high-performance Python package manager).
-* **Validation & Schemas**: [Pydantic v2](https://docs.pydantic.dev/) for I/O serialization.
-* **Server/Deployment**: Vertex AI Reasoning Engine (Gemini Enterprise Agent Runtime) with FastAPI wrappers.
-* **Infrastructure**: Terraform (scaffolded in `deployment/terraform/` for IAM bindings, Cloud Trace, and Google Cloud Storage).
-
----
-
-## 📁 Project Structure
-
+```json
+{
+  "amount": 150,
+  "submitter": "alice@company.com",
+  "category": "software",
+  "description": "IDE License"
+}
 ```
+
+---
+
+### Step 2: Classification
+
+The workflow evaluates the expense amount.
+
+| Amount          | Action                |
+| --------------- | --------------------- |
+| Less than $100  | Auto Approve          |
+| $100 or Greater | Human Review Required |
+
+---
+
+### Step 3: Approval Routing
+
+#### Auto Approval
+
+If the amount is below the threshold:
+
+```json
+{
+  "status": "Approved",
+  "reason": "Expense of $80.00 automatically approved."
+}
+```
+
+---
+
+#### Human Review
+
+For higher-value expenses:
+
+```json
+{
+  "amount": 150
+}
+```
+
+The workflow pauses execution and waits for reviewer input.
+
+Available actions:
+
+* Approve
+* Reject
+
+---
+
+### Step 4: Workflow Resumption
+
+Once the reviewer responds:
+
+* Session state is restored
+* Workflow continues from the pause point
+* Final decision is recorded
+
+---
+
+# 📂 Project Structure
+
+```text
 expense-agent/
-├── app/                        # Core agent code
-│   ├── agent.py                # Main workflow logic (Schemas, Nodes, and Graph)
-│   ├── agent_runtime_app.py    # Vertex AI Reasoning Engine initialization
-│   └── app_utils/              # Logging, Telemetry & standard helpers
-├── deployment/                 # Production infrastructure configuration
-│   └── terraform/              # Terraform scripts (single-project setup & telemetry)
-├── tests/                      # Unit and performance tests
-├── pyproject.toml              # Project dependencies and tool configurations
-├── uv.lock                     # Locked dependencies (100% deterministic builds)
-└── agents-cli-manifest.yaml    # CLI configuration manifest
+│
+├── app/
+│   ├── agent.py
+│   ├── agent_runtime_app.py
+│
+├── deployment/
+│   └── terraform/
+│
+├── tests/
+│
+├── pyproject.toml
+├── uv.lock
+├── agents-cli-manifest.yaml
+└── README.md
 ```
 
 ---
 
-## 🎓 Upskilling & References
+# 🛠️ Technology Stack
 
-To learn more about the technologies and methodologies used in this project:
-
-* **Course Material**: [Google 5-Day Intensive Vibe Coding Course](https://github.com/google-gemini/vibe-coding)
-* **ADK Docs**: [Official Agent Development Kit Documentation](https://adk.dev/)
-* **Google Cloud SDK**: [Vertex AI Reasoning Engine / Agent Runtime Docs](https://cloud.google.com/vertex-ai/docs)
-* **Pydantic**: [Pydantic v2 Documentation](https://docs.pydantic.dev/latest/)
+| Category           | Technology           |
+| ------------------ | -------------------- |
+| AI Framework       | Google ADK 2.0       |
+| Workflow Engine    | ADK Workflow API     |
+| Language           | Python 3.11+         |
+| Dependency Manager | UV                   |
+| Data Validation    | Pydantic             |
+| Human Review       | RequestInput         |
+| Local Testing      | ADK Playground       |
+| Runtime            | Vertex AI Compatible |
 
 ---
 
-## 🚀 Getting Started
+# ⚙️ Installation
 
-### Prerequisites:
-Make sure you have `uv` installed ([Install uv](https://docs.astral.sh/uv/getting-started/installation/)):
+## Prerequisites
+
+Before getting started, ensure the following tools are installed:
+
+* Python 3.11+
+* UV Package Manager
+* Google ADK
+* Agents CLI
+* Google AI Studio API Key
+
+---
+
+## 1️⃣ Clone the Repository
+
 ```bash
-powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
-```
+git clone https://github.com/your-username/ambient-expense-agent.git
 
-### Installation:
-1. Setup the Agents CLI and link ADK skills globally:
-   ```bash
-   uvx google-agents-cli setup
-   ```
-2. Sync the project environment and install dependencies:
-   ```bash
-   agents-cli install
-   ```
-3. Test locally in the ADK web playground:
-   ```bash
-   agents-cli playground
-   ```
+cd ambient-expense-agent
+```
 
 ---
 
-## 🌐 Deployment to Agent Runtime
+## 2️⃣ Install Dependencies
 
-To deploy the agent to Google Cloud:
+Using UV:
 
-1. Configure your GCP project:
-   ```bash
-   gcloud config set project <your-project-id>
-   ```
-2. Deploy the Reasoning Engine to us-east1:
-   ```bash
-   agents-cli deploy
-   ```
+```bash
+uv sync
+```
+
+This will install all project dependencies defined in:
+
+```text
+pyproject.toml
+```
+
+---
+
+## 3️⃣ Configure Environment Variables
+
+Create a `.env` file:
+
+```env
+GOOGLE_API_KEY=YOUR_GOOGLE_AI_STUDIO_API_KEY
+```
+
+Generate an API key from:
+
+https://aistudio.google.com/app/apikey
+
+---
+
+## 4️⃣ Configure Agents CLI
+
+Initialize the local development environment:
+
+```bash
+uvx google-agents-cli setup
+```
+
+Verify installation:
+
+```bash
+agents-cli info
+```
+
+---
+
+# 🚀 Running the Agent
+
+## Launch ADK Playground
+
+Start the development server:
+
+```bash
+agents-cli playground
+```
+
+---
+
+## Open Playground
+
+Navigate to:
+
+```text
+http://127.0.0.1:8000/dev-ui
+```
+
+You can now interact with the expense approval workflow through the ADK Playground UI.
+
+---
+
+# 🧪 Test Scenarios
+
+## Test Case 1 – Auto Approval
+
+### Input
+
+```json
+{
+  "amount": 45,
+  "submitter": "bob@company.com",
+  "category": "food",
+  "description": "Team Lunch"
+}
+```
+
+### Expected Result
+
+```text
+Approved Automatically
+```
+
+---
+
+## Test Case 2 – Boundary Condition
+
+### Input
+
+```json
+{
+  "amount": 99
+}
+```
+
+### Expected Result
+
+```text
+Approved Automatically
+```
+
+---
+
+## Test Case 3 – Human Review
+
+### Input
+
+```json
+{
+  "amount": 150,
+  "submitter": "alice@company.com",
+  "category": "software",
+  "description": "IDE License"
+}
+```
+
+### Expected Result
+
+```text
+Workflow Pauses
+Human Approval Requested
+```
+
+---
+
+## Test Case 4 – High-Value Expense
+
+### Input
+
+```json
+{
+  "amount": 5000,
+  "submitter": "manager@company.com",
+  "category": "travel",
+  "description": "International Business Flight"
+}
+```
+
+### Expected Result
+
+```text
+Manual Review Required
+```
+
+---
+
+# 📸 Screenshots
+
+## ADK Playground
+
+```text
+screenshots/adk-playground.png
+```
+
+---
+
+## Workflow Graph
+
+```text
+screenshots/workflow-graph.png
+```
+
+---
+
+## Auto Approval Example
+
+```text
+screenshots/auto-approval.png
+```
+
+---
+
+## Human Review Flow
+
+```text
+screenshots/human-review.png
+```
+
+---
+
+## Approval Result
+
+```text
+screenshots/approval-result.png
+```
+
+---
+
+## Rejection Result
+
+```text
+screenshots/rejection-result.png
+```
+
+---
+
+# 🎓 Learning Outcomes
+
+This project provided hands-on experience with:
+
+* Google Agent Development Kit (ADK 2.0)
+* Workflow-Based Agent Systems
+* Graph-Oriented Agent Design
+* Human-in-the-Loop Architectures
+* Stateful Agent Workflows
+* Session Persistence & Recovery
+* RequestInput Workflow Interruptions
+* Production-Oriented AI Engineering
+* Vertex AI Compatible Agent Development
+
+---
+
+# 🔮 Future Enhancements
+
+Potential improvements include:
+
+* Multi-Level Approval Chains
+* Expense Policy Engine
+* Email Notifications
+* Slack Integration
+* Role-Based Reviewer Assignment
+* Audit Logging
+* Database Persistence
+* Dashboard Analytics
+* Fraud Detection Workflows
+* ERP Integration
+
+---
+
+# 📚 References
+
+* Google Agent Development Kit (ADK)
+* Google AI Studio
+* Agents CLI
+* Vertex AI Agent Runtime
+* Kaggle 5-Day AI Agents Intensive Vibe Coding Course
+
+---
+
+# 🙌 Acknowledgements
+
+Special thanks to:
+
+* Google
+* Google Cloud
+* Kaggle
+* Google AI Developer Team
+
+for providing the tools, infrastructure, and educational resources that made this project possible.
+
+---
+
+# ⭐ Support
+
+If you found this project useful, please consider:
+
+⭐ Starring the repository
+
+🍴 Forking the project
+
+🤝 Contributing improvements
+
+📢 Sharing feedback
+
+---
+
+## 👨‍💻 Author
+
+**Deepak Hare**
+
+AI Engineer • Agentic AI Enthusiast • Google ADK Learner
+
+Built with ❤️ using Google ADK 2.0 and Gemini.
