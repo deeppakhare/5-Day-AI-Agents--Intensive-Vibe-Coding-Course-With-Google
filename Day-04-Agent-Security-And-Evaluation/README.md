@@ -401,36 +401,7 @@ screenshots/pii-redaction.png
 
 ---
 
-# Challenges Faced
 
-## Human Approval Workflow Design
-
-Designed a workflow that intelligently separates low-risk and high-risk transactions while ensuring human oversight for sensitive cases.
-
----
-
-## Security Guardrails
-
-Implemented prompt injection detection to prevent malicious attempts to bypass business rules.
-
----
-
-## Sensitive Data Protection
-
-Added PII redaction before sending data to AI models to reduce privacy risks.
-
----
-
-## Evaluation Strategy
-
-Defined metrics to measure:
-
-* Routing Correctness
-* Security Containment
-* Prompt Injection Detection
-* Human Escalation Accuracy
-
----
 
 # Key Learnings
 
