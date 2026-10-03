@@ -36,6 +36,9 @@ MERN Stack Developer • Frontend Developer • AI & Agent Engineering Enthusias
 
 ### Connect With Me
 
+* GitHub: https://github.com/deeppakhare
+* LinkedIn: https://www.linkedin.com/in/deeppakhare6669/
+* Portfolio: https://deep-s-portfolio-iota.vercel.app/
 
 ---
 
