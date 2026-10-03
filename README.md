@@ -42,6 +42,15 @@ MERN Stack Developer • Frontend Developer • AI & Agent Engineering Enthusias
 
 ---
 
+# 🎯 Course Progress
+
+| Day    | Topic                                | Status      |
+| ------ | ------------------------------------ | ----------- |
+| Day 01 | Introduction to Agents & Vibe Coding | ✅ Completed |
+| Day 02 | Agent Tools & Interoperability       | ✅ Completed |
+| Day 03 | Agent Skills                         | ✅ Completed |
+| Day 04 | Agent Security & Evaluation          | ✅ Completed |
+| Day 05 | Spec-Driven Production Development   | ✅ Completed |
 
 ---
 
